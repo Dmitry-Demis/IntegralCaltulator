@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IntegralCalculating
 {
-    class TrapezeCalculator : ICalculator
+    public class TrapezeCalculator : ICalculator
     {
         public double Calculate(double a, double b, long n, Func<double, double> f)
         {

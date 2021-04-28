@@ -9,5 +9,6 @@ namespace IntegralCalculating
     interface ICalculator
     {
         double Calculate(double a, double b, long n, Func<double, double> f);
+        double CalculateParallel(double a, double b, long n, Func<double, double> f);
     }
 }

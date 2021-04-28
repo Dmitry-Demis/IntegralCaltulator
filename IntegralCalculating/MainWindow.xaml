@@ -6,13 +6,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IntegralCalculating"       
         mc:Ignorable="d"
-        Title="Integral Calculator" MinHeight="450" MinWidth="800">
+        Title="Integral Calculator" MinHeight="450" MinWidth="1000">
     <Window.DataContext>
         <local:MainWindow/>
     </Window.DataContext>
     <Grid ShowGridLines="False" Margin="5" Background="AntiqueWhite">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"></ColumnDefinition>
+            <ColumnDefinition Width="400"></ColumnDefinition>
             <ColumnDefinition Width="1"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -38,7 +38,7 @@
             <StackPanel Grid.Column="1" Margin="5">
                 <TextBox x:Name="tbLowerLimit" Margin="5" FontSize="18"  Text="1"/>
                 <TextBox x:Name="tbHigherLimit" Margin="5" FontSize="18"  Text="1000000"/>
-                <TextBox x:Name="tbN" Margin="5" FontSize="18">100</TextBox>
+                <TextBox x:Name="tbN" Margin="5" FontSize="18" Text="1000000"/>
             </StackPanel>
         </Grid>
         <Grid Grid.Row="1" Grid.Column="0">
@@ -56,6 +56,11 @@
                         FontSize="18" Padding="5" Margin="5" Click="btnBuildGraphic_Click">
                     Build a graphic
                 </Button>
+                <Button x:Name="btnCalculateParallel" 
+                        FontSize="18" Padding="5" Margin="5" Click="btnCalculateParallel_Click" >
+                    Calculate Parallel
+                </Button>
+
             </WrapPanel>
             <StackPanel Grid.Row="1" VerticalAlignment="Stretch" Orientation="Horizontal" Margin="5">
                 <TextBlock TextWrapping="WrapWithOverflow" Width="150" TextAlignment="Center"
@@ -77,12 +82,21 @@
                         <ColumnDefinition Width="auto"></ColumnDefinition>
                         <ColumnDefinition Width="270"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
                     <TextBlock Margin="5" FontSize="18" FontFamily="Arial Black" Grid.Column="0">
                     Результат
                     </TextBlock>
                     <TextBox x:Name="tbResult" FontSize="18" FontFamily="Arial Black" Grid.Column="1" Foreground="Red" TextWrapping="WrapWithOverflow"
-                             TextAlignment="Justify" IsEnabled="False" IsReadOnly="True">
+                             TextAlignment="Justify" IsEnabled="True" IsReadOnly="True">
                         Здесь будет результат работы программы
+                    </TextBox>
+                    <TextBlock Grid.Row="1" FontFamily="Arial Black" FontSize="18" Margin="5">Time</TextBlock>
+                    <TextBox x:Name="tbResultTime" FontSize="18" FontFamily="Arial Black" Grid.Column="1" Grid.Row="1" Foreground="Red" TextWrapping="WrapWithOverflow"
+                             TextAlignment="Justify" IsEnabled="False" IsReadOnly="True" Margin="5">
+                        00:00.00
                     </TextBox>
                 </Grid>
                 

@@ -42,15 +42,48 @@ namespace IntegralCalculating
 
         private void btnCalculate_Click(object sender, RoutedEventArgs e)
         {
+            this.Cursor = Cursors.Wait;
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
             Calculate();
-            
+            stopwatch.Stop();
+            TimeSpan ts = stopwatch.Elapsed;
+            tbResultTime.Text = ts.ToString();
+            this.Cursor = Cursors.Arrow;
         }
-
+        private void btnCalculateParallel_Click(object sender, RoutedEventArgs e)
+        {
+            this.Cursor = Cursors.Wait;
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            CalculateParallel();
+            stopwatch.Stop();
+            TimeSpan ts = stopwatch.Elapsed;
+            tbResultTime.Text = ts.ToString();
+            this.Cursor = Cursors.Arrow;
+        }
         private void btnClear_Click(object sender, RoutedEventArgs e)
         {
 
         }
-
+        private void CalculateParallel()
+        {
+            if (!double.TryParse(tbLowerLimit.Text, out double lowerLimit))
+            {
+                MessageBox.Show($"String {tbLowerLimit.Text} can't be parsed to digit");
+            }
+            if (!double.TryParse(tbHigherLimit.Text, out double higherLimit))
+            {
+                MessageBox.Show($"String {tbHigherLimit.Text} can't be parsed to digit");
+            }
+            if (!long.TryParse(tbN.Text, out long N))
+            {
+                MessageBox.Show($"String {tbN.Text} can't be parsed to digit");
+            }
+            ICalculator calculator = GetCalculator();
+            double result = calculator.CalculateParallel(lowerLimit, higherLimit, N, x => 2 * x - Math.Log(7 * x) - 12);
+            tbResult.Text = result.ToString();
+        }
 
         private void Calculate(long numberN=-1)
         {
@@ -85,15 +118,13 @@ namespace IntegralCalculating
         }
 
 
-
-        private void btnBuildGraphic_Click(object sender, RoutedEventArgs e)
+        private void BuildGraphic()
         {
-           
             long beginN = 1000;
             long lastN = 1_000_000;
             long delta = 1_000;
-           Stopwatch beginning = new Stopwatch();
-           MainWindow mn = DataContext as MainWindow;
+            Stopwatch beginning = new Stopwatch();
+            MainWindow mn = DataContext as MainWindow;
             this.Cursor = Cursors.Wait;
             int k = 0;
             for (long i = beginN; i < lastN; i += delta)
@@ -103,19 +134,28 @@ namespace IntegralCalculating
                 beginning.Stop();
                 var sec = beginning.ElapsedMilliseconds;
                 beginning.Reset();
-                if (k==10)
+                if (k == 10)
                 {
-                  
+
                     DataPoint data = new DataPoint(i, sec);
                     mn.Points.Add(data);
 
                     k = 0;
                 }
                 k++;
-                
+
             }
             this.Cursor = Cursors.Arrow;
         }
+        private void btnBuildGraphic_Click(object sender, RoutedEventArgs e)
+        {
+            this.Points.Clear();
+            this.MyModel.InvalidatePlot(true);
+            BuildGraphic();
+
+        }
+
+     
     }
 
 }
